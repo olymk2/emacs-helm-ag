@@ -61,6 +61,10 @@
   "Command line option of `ag'. This is appended after `helm-ag-base-command'"
   :type 'string)
 
+(defcustom helm-ag-major-mode 'fundamental-mode
+  "Change the default mode of the edit buffer."
+  :type 'function)
+
 (defcustom helm-ag-insert-at-point nil
   "Insert thing at point as search pattern.
    You can set value same as `thing-at-point'"
@@ -624,6 +628,7 @@ Default behaviour shows finish and result in mode-line."
          (default-directory helm-buf-dir))
     (with-current-buffer (get-buffer-create "*helm-ag-edit*")
       (erase-buffer)
+      (funcall helm-ag-major-mode)
       (setq-local helm-ag--default-directory helm-buf-dir)
       (unless (helm-ag--vimgrep-option)
         (setq-local helm-ag--search-this-file-p
